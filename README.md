@@ -1,7 +1,7 @@
-# **hw-12-employee-tracker**
-  ![Contents](https://img.shields.io/github/languages/top/virlym/hw-12-employee-tracker)
-  ![Last-Commit](https://img.shields.io/github/last-commit/virlym/hw-12-employee-tracker)
-  ![License](https://img.shields.io/github/license/virlym/hw-12-employee-tracker)
+# **hw12-employee-tracker**
+  ![Contents](https://img.shields.io/github/languages/top/virlym/hw12-employee-tracker)
+  ![Last-Commit](https://img.shields.io/github/last-commit/virlym/hw12-employee-tracker)
+  ![License](https://img.shields.io/github/license/virlym/hw12-employee-tracker)
   ## **Description**
   
   Create and utilize a schema based on a provided ERD consisting of 3 tables. One for department, one for role, and one for employee. With a CLI, allow the user to add departments, roles, and employees. View departments, roles, and employees. Update employee roles. Update employee managers. View employees by manager. Delete departments, roles, and employees. View the total utilized budget of a department (combined salaries of all employees in that department).
