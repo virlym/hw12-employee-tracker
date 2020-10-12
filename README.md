@@ -13,7 +13,7 @@
   * [Usage](#Usage)
   * [License](#License)
   * [Contributing](#Contributing)
-  * [Tests](#Tests)
+  * [Technology](#Technology)
   * [Questions](#Questions)
   
   <br><br>
