@@ -1,5 +1,5 @@
 // a function that defines the questions for inquirer
-// takes in a question section variable, returns a string of objects that inquirer can use for prompt
+// takes in the role, department, and employee name object arrays, returns a string of objects that inquirer can use for prompt
 function questionBuilder(roleNames, departmentNames, employeeNames) {
 
     questionArray = [
