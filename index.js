@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
-  populateEmployees();
+  init();
   //connection.end();
 });
 
@@ -38,6 +38,19 @@ connection.connect(function(err) {
 //       });
     
 // }
+
+function init(){
+  connection.query("SELECT * FROM display_employees", function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+        console.table(res);
+        populateEmployees();
+    }
+    return;
+  });
+}
 
 function populateEmployees(){
   connection.query("SELECT * FROM employees", function(err, res) {
@@ -112,19 +125,58 @@ function promptUser(employeesArray, rolesArray, departmentsArray){
 
   inquirer.prompt(questionBuilder.questionBuilder(roleNames, departmentNames, employeeNames)
   ).then(function(answers){ 
-      if(answers.choice==="Add info"){
-        postItem();
+      // ["Employee info", "Role info", "Department info"]
+      if(answers.choice === "Add info"){
+        if(answers.addItem === "Employee info"){
+          addEmployee(answers.addEmpFirst, answers.addEmpLast, answers.addEmpRole, answers.addEmpManager);
+        }
+        else if(answers.addItem === "Role info"){
+          addRole(answers.addRoleTitle, answers.addRoleSalary, answers.addDepartmentId);
+        }
+        else{
+          addDepartment(answers.addDepartment);
+        }
       }
-      else if(answers.choice==="View info"){
-        bidItem()
+      // ["Employee info", "Role info", "Department info", "Employees by manager", "Budget info"]
+      else if(answers.choice === "View info"){
+        if(answers.viewItem === "Employee info"){
+          viewEmployees();
+        }
+        else if(answers.viewItem === "Role info"){
+          viewRoles();
+        }
+        else if(answers.viewItem === "Department info"){
+          viewDepartments();
+        }
+        else if(answers.viewItem === "Employees by manager"){
+          viewEmployeesByManager(answers.viewManager);
+        }
+        else{
+          viewBudget(answers.viewBudget);
+        }
       }
-      else if(answers.choice==="Update info"){
-        bidItem()
+      // [`Employee role`, `Employee manager`]
+      else if(answers.choice === "Update info"){
+        if(answers.updateItem === "Employee role"){
+          updateEmployeeRole(answers.updateEmployee, answers.updateRoles);
+        }
+        else{
+          updateEmployeeManager(answers.updateEmployee, answers.updateManagers);
+        }
       }
-      else if(answers.choice==="Delete info"){
-        bidItem()
+      // ["Employee info", "Role info", "Department info"]
+      else if(answers.choice === "Delete info"){
+        if(answers.deleteItem === "Employee info"){
+          deleteEmployee(answers.deleteEmp);
+        }
+        else if(answers.deleteItem === "Role info"){
+          deleteRole(answers.deleteRole);
+        }
+        else{
+          deleteDepartment(answers.deleteDepartment);
+        }
       }
-      else if(answers.choice==="Quit"){
+      else if(answers.choice === "Quit"){
         quitConnection();
       }
   })
