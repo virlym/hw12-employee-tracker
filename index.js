@@ -179,45 +179,174 @@ function promptUser(employeesArray, rolesArray, departmentsArray){
       else if(answers.choice === "Quit"){
         quitConnection();
       }
-  })
-}
-
-function bidItem(auction_id, auctionArray, user_bid, bidderArray){
-  if((parseInt(auctionArray[auction_id - 1].highest_bid) < user_bid) || (auctionArray[auction_id - 1].highest_bid === null )){
-    connection.query(`UPDATE auction SET ? WHERE ?`, [{highest_bid : user_bid}, {id : auction_id}], function(err, res) {
-      if (err) {
-          throw err;
-      }
-      else{
-        console.table(res);
-        promptUser(bidderArray, auctionArray);
-      }
-    });
-  }
-  else{
-    console.log("your bid is too low");
-    promptUser(bidderArray, auctionArray);
-  }
+  });
   return;
 }
 
-function postItem(category, name, bidderArray, auctionArray){
-  console.log(category);
-  console.log(name);
-  if(name !== ""){
-    connection.query(`INSERT INTO auction SET ?`, [{auction_category : category, auction_name : name}], function(err, res) {
+function addEmployee(firstName, lastName, role, manager){
+  if(manager === "None"){
+    connection.query(`INSERT INTO employees (first_name, last_name, role_id) VALUES ("${firstName}", "${lastName}", ${role});`, function(err, res) {
       if (err) {
           throw err;
       }
       else{
-        console.table(res);
-        promptUser(bidderArray, auctionArray);
+          console.log(`${res.affectedRows} record(s) inserted`);
+          populateEmployees();
       }
+      return;
     });
   }
   else{
-    console.log("your bid is too low");
-    promptUser(bidderArray, auctionArray);
+    connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}", ${role}, ${manager});`, function(err, res) {
+      if (err) {
+          throw err;
+      }
+      else{
+          console.log(`${res.affectedRows} record(s) inserted`);
+          populateEmployees();
+      }
+      return;
+    });
   }
+}
+
+function addRole(title, salary, department){
+  connection.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${title}", ${salary}, ${department});`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+        console.log(`${res.affectedRows} record(s) inserted`);
+        populateEmployees();
+    }
+    return;
+  });
+}
+
+function addDepartment(name){
+  connection.query(`INSERT INTO departments (department_name) VALUES ("${name}");`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+        console.log(`${res.affectedRows} record(s) inserted`);
+        populateEmployees();
+    }
+    return;
+  });
+}
+
+function viewEmployees(){
+  init();
+  return;
+}
+
+function viewRoles(){
+  connection.query(`SELECT * FROM roles;`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+        console.table(res);
+        populateEmployees();
+    }
+    return;
+  });
+}
+
+function viewDepartments(){
+  connection.query(`SELECT * FROM departments;`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+        console.table(res);
+        populateEmployees();
+    }
+    return;
+  });
+}
+
+function updateEmployeeRole(employee, newRole){
+  connection.query(`UPDATE employees SET role_id = ${newRole} WHERE id = ${employee};`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+      console.log(`${res.affectedRows} record(s) updated`);
+      populateEmployees();
+    }
+  });
+  return;
+}
+
+function updateEmployeeManager(employee, manager){
+  if(employee === manager){
+    console.log(`Please don't set an individual's manager as themselves`);
+    populateEmployees();
+    return;
+  }
+  else if(manager === "None"){
+    connection.query(`UPDATE employees SET manager_id = null WHERE id = ${employee};`, function(err, res) {
+      if (err) {
+          throw err;
+      }
+      else{
+        console.log(`${res.affectedRows} record(s) updated`);
+        populateEmployees();
+      }
+    });
+    return;
+  }
+  else{
+    connection.query(`UPDATE employees SET manager_id = ${manager} WHERE id = ${employee};`, function(err, res) {
+      if (err) {
+          throw err;
+      }
+      else{
+        console.log(`${res.affectedRows} record(s) updated`);
+        populateEmployees();
+      }
+    });
+    return;
+  }
+}
+
+function deleteEmployee(employee){
+  connection.query(`DELETE FROM employees WHERE id = ${employee};`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+      console.log(`${res.affectedRows} record(s) deleted`);
+      populateEmployees();
+    }
+  });
+  return;
+}
+
+function deleteRole(role){
+  connection.query(`DELETE FROM roles WHERE id = ${role};`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+      console.log(`${res.affectedRows} record(s) deleted`);
+      populateEmployees();
+    }
+  });
+  return;
+}
+
+function deleteDepartment(department){
+  connection.query(`DELETE FROM departments WHERE id = ${department};`, function(err, res) {
+    if (err) {
+        throw err;
+    }
+    else{
+      console.log(`${res.affectedRows} record(s) deleted`);
+      populateEmployees();
+    }
+  });
   return;
 }

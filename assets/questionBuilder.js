@@ -203,7 +203,7 @@ function questionBuilder(roleNames, departmentNames, employeeNames) {
             name:'updateManagers',
             message:`Which manager should they have?`,
             type:"list",
-            choices:[...employeeNames],
+            choices:[...employeeNames, "None"],
             when:function(answers){
                 if((answers.choice==="Update info") && (answers.updateItem === `Employee manager`)){
                     return true
