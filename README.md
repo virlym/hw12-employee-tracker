@@ -33,11 +33,14 @@
   ## **Usage**
   Here are some images and a link to a video demo showing some of the functionality of the project. Keep in mind that the employee needs a role, which needs a department. If a department is deleted, all the roles in that department will also be deleted, as well as all the employees with those roles. However, if a manager is removed, the employees under that manager will just be updated to no longer have a manager.
 
+  [Demo Link](https://drive.google.com/file/d/1KLDXeC43pQV2t8PJQLBYDPMIl0Jx2b08/view)
+
   ![Start](./assets/start.PNG)
+
   ![BudgetView](./assets/legalBudget.PNG)
+  
   ![AddEmployeeExample](./assets/employeeAddExample.PNG)
 
-  [Demo Link](https://drive.google.com/file/d/1IvIJfUpSEBasd2nFGNy48lWPu_xwLbh1/view)
   <br><br>
   
   ## **License**
