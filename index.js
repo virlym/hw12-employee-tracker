@@ -236,7 +236,7 @@ function viewEmployees(){
 
 // calls the roles table and displays it
 function viewRoles(){
-  connection.query(`SELECT * FROM roles;`, function(err, res) {
+  connection.query(`SELECT r.title AS "Role", r.salary AS "Salary", d.department_name AS "Department" FROM roles AS r LEFT JOIN departments AS d ON r.department_id = d.id ORDER BY d.department_name, r.salary;`, function(err, res) {
     if (err) {
         throw err;
     }
@@ -250,7 +250,7 @@ function viewRoles(){
 
 // calls the departments table and displays it
 function viewDepartments(){
-  connection.query(`SELECT * FROM departments;`, function(err, res) {
+  connection.query(`SELECT department_name AS "Department" FROM departments ORDER BY department_name;`, function(err, res) {
     if (err) {
         throw err;
     }

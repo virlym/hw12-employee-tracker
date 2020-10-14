@@ -123,7 +123,7 @@ function questionBuilder(roleNames, departmentNames, employeeNames) {
         },
         {
             name:'viewItem',
-            message:"What info would you like to add?",
+            message:"What info would you like to view?",
             type:"list",
             choices:["Employee info", "Role info", "Department info", "Employees by manager", "Budget info"],
             when:function(answers){
